@@ -1,6 +1,3 @@
-# SPDX-License-Identifier: MIT
-# Copyright (C) 2026 VIKINGYFY
-
 #云编译公用核心
 name: WRT-CORE
 
@@ -151,7 +148,18 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./wrt/
+          
+          # 补丁 1: CPU 频率表
+          PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
+          mkdir -p $(dirname "$PATCH_PATH1")
+          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"  
+          echo "Patch replaced successfully."
 
+          # 补丁 2: 注入 CPU 编译优化指令 (CRC32/Crypto)
+          TARGET_MAKEFILE="target/linux/qualcommax/Makefile"
+          sed -i '/CPU_TYPE:=cortex-a53/a CPU_CFLAGS_cortex-a53 += -march=armv8-a+crc+crypto' "$TARGET_MAKEFILE"
+          echo "CPU Optimization added to Makefile successfully."
+          
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 

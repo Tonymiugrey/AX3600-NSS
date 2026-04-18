@@ -1,0 +1,11 @@
+#!/bin/sh
+
+uci -q batch <<EOF
+    set system.@system[0].zram_size_mb='128'
+    set system.@system[0].zram_comp_algo='lz4'
+    commit system
+EOF
+
+/etc/init.d/zram restart
+
+exit 0

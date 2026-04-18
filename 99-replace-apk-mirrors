@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# 定义目标文件路径
+TARGET_FILE="/etc/apk/repositories.d/distfeeds.list"
+
+# 检查文件是否存在
+if [ -f "$TARGET_FILE" ]; then
+    # 使用 sed 进行全局替换
+    # 将 https://downloads.immortalwrt.org 替换为 https://mirror.nju.edu.cn/immortalwrt
+    sed -i 's|https://downloads.immortalwrt.org|https://mirror.nju.edu.cn/immortalwrt|g' "$TARGET_FILE"
+fi
+
+# 返回 0 确保脚本执行后被系统自动删除
+exit 0
