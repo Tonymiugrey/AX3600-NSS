@@ -10,18 +10,11 @@ on:
   workflow_dispatch:
     inputs:
       CONFIG:
-        default: 'MEDIATEK'
+        default: 'IPQ807X-WIFI-YES'
         required: true
         type: choice
         options:
-          - MEDIATEK
-          - ROCKCHIP
-          - X86
-          - IPQ60XX-WIFI-YES
-          - IPQ60XX-WIFI-NO
           - IPQ807X-WIFI-YES
-          - IPQ807X-WIFI-NO
-          - TEST
       SOURCE:
         default: 'VIKINGYFY/immortalwrt'
         required: true
