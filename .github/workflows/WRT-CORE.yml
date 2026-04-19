@@ -155,19 +155,7 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"  
           echo "Patch replaced successfully."
 
-          # 补丁 2: ath11k 支持 80P80 和 160 MHz 带宽
-          PATCH_PATH2="package/kernel/mac80211/patches/ath11k/0010-ath11k-add-support-for-80P80-and-160-MHz-bandwidth.patch"
-          mkdir -p $(dirname "$PATCH_PATH2")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0010-ath11k-add-support-for-80P80-and-160-MHz-bandwidth.patch -o "$PATCH_PATH2"
-          echo "Patch 0010 applied successfully."
-
-          # 补丁 3: ath11k 修复 160 MHz 雷达检测
-          PATCH_PATH3="package/kernel/mac80211/patches/ath11k/0178-ath11k-fix-radar-detection-in-160-Mhz.patch"
-          mkdir -p $(dirname "$PATCH_PATH3")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0178-ath11k-fix-radar-detection-in-160-Mhz.patch -o "$PATCH_PATH3"
-          echo "Patch 0178 applied successfully."
-
-          # 补丁 4: 注入 CPU 编译优化指令 (CRC32/Crypto)
+          # 补丁 2: 注入 CPU 编译优化指令 (CRC32/Crypto)
           TARGET_MAKEFILE="target/linux/qualcommax/Makefile"
           sed -i '/CPU_TYPE:=cortex-a53/a CPU_CFLAGS_cortex-a53 += -march=armv8-a+crc+crypto' "$TARGET_MAKEFILE"
           echo "CPU Optimization added to Makefile successfully."

@@ -101,3 +101,15 @@ mkdir -p package/base-files/files/etc/uci-defaults && \
 curl -L https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/99-Configure-ZRam -o package/base-files/files/etc/uci-defaults/99-Configure-ZRam && \
 curl -L https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/99-replace-apk-mirrors -o package/base-files/files/etc/uci-defaults/99-replace-apk-mirrors
 
+# 启用 MU-MIMO / Beamforming
+cat > package/base-files/files/etc/uci-defaults/99-wifi-mumimo <<'MUMIMO'
+#!/bin/sh
+for radio in radio1 radio2; do
+	uci -q get wireless.${radio} >/dev/null 2>&1 || continue
+	uci set wireless.${radio}.mu_beamformer='1'
+	uci set wireless.${radio}.mu_beamformee='1'
+	uci set wireless.${radio}.he_mu_beamformer='1'
+done
+uci commit wireless
+MUMIMO
+
